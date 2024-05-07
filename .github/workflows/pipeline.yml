@@ -20,25 +20,15 @@ jobs:
           node-version: '18' 
       - name: Install dependencies
         run: npm ci
-      - name: Build
-        run: npm run build  # Asegúrate de que este comando genere el directorio "dist"
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: dist
-          path: dist  # Ruta donde se encuentra el artefacto generado
-
+        
   deploy:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v2
-        with:
-          name: dist
-          path: dist
       - name: Deploy to DigitalOcean
         if: ${{ github.event_name == 'push' }}
         env:
           DIGITALOCEAN_TOKEN: ${{ secrets.DIGITALOCEAN_TOKEN }}
         run: |
           curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer $DIGITALOCEAN_TOKEN" https://api.digitalocean.com/v2/apps/$APP_ID/deployments
+
