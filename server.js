@@ -27,8 +27,9 @@ app.post('/login', (req, res) =>{
 })
 
 app.get('/', (req, res) => {
-    res.send('Server is running.....');
-});
+    res.send('Hola Mundo');
+  });
+  
 
 app.listen(8081, () =>{
     console.log("Listening..")
